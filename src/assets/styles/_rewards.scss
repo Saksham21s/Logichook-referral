@@ -1,0 +1,551 @@
+@import 'variables';
+
+.rewards-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5.5rem 2rem;
+  position: relative;
+}
+
+.rewards-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 2rem;
+    color: $dark;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    .header-icon {
+      color: $secondary;
+    }
+  }
+  
+  .coin-balance {
+    background: rgba($primary, 0.1);
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .coin-icon {
+      color: $gold;
+    }
+  }
+}
+
+.category-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  
+  button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    background: $light-gray;
+    color: $dark;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    &.active {
+      background: $primary;
+      color: $white;
+      
+      .tab-icon {
+        color: $white;
+      }
+    }
+    
+    .tab-icon {
+      font-size: 1rem;
+      color: $gray;
+    }
+    
+    &:hover:not(.active) {
+      background: darken($light-gray, 5%);
+    }
+  }
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.reward-card {
+  background: $white;
+  border-radius: 16px;
+  overflow: hidden;
+  @include card-shadow;
+  transition: transform 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  
+  &.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($white, 0.5);
+    }
+  }
+  
+  .reward-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 1;
+    
+    span {
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      
+      &.merch-badge {
+        background: rgba($secondary, 0.2);
+        color: darken($secondary, 20%);
+      }
+      
+      &.premium-badge {
+        background: rgba($gold, 0.2);
+        color: darken($gold, 20%);
+      }
+    }
+  }
+  
+  .reward-image {
+    height: 200px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+  
+  &:hover:not(.disabled) {
+    .reward-image img {
+      transform: scale(1.05);
+    }
+  }
+  
+  .reward-details {
+    padding: 1.5rem;
+    
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: $dark;
+    }
+    
+    .description {
+      color: $gray;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    
+    .price-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: $dark;
+      
+      .coin-icon {
+        color: $gold;
+      }
+    }
+    
+    .insufficient-funds {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: $danger;
+    }
+  }
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($dark, 0.8);
+  z-index: 1000;
+  @include flex-center;
+  padding: 1rem;
+}
+
+.reward-modal-content {
+  background: $white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $light-gray;
+    border: none;
+    @include flex-center;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: $danger;
+      color: $white;
+    }
+  }
+  
+  .modal-header {
+    padding: 2rem 2rem 1rem;
+    
+    .reward-category {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $gray;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      
+      svg {
+        color: $primary;
+      }
+    }
+    
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      color: $dark;
+    }
+    
+    .price-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: $dark;
+      
+      .coin-icon {
+        color: $gold;
+        font-size: 1.25rem;
+      }
+    }
+  }
+  
+  .modal-body {
+    padding: 0 2rem;
+    
+    .reward-image {
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    
+    .reward-description {
+      margin-bottom: 2rem;
+      
+      p {
+        color: $gray;
+        line-height: 1.6;
+      }
+    }
+    
+    .option-selector {
+      margin-bottom: 1.5rem;
+      
+      h4 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        color: $dark;
+      }
+      
+      .color-options {
+        display: flex;
+        gap: 0.75rem;
+        
+        .color-option {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 2px solid transparent;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          
+          &.selected {
+            border-color: $primary;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 2px $white, 0 0 0 4px $primary;
+          }
+        }
+      }
+      
+      .size-options, .platform-options {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        
+        .size-option, .platform-option {
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          background: $light-gray;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          
+          &.selected {
+            background: $primary;
+            color: $white;
+          }
+        }
+      }
+    }
+    
+    .delivery-form {
+      background: $light;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      
+      h4 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: $dark;
+      }
+      
+      .form-group {
+        margin-bottom: 1rem;
+        
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-size: 0.9rem;
+          color: $dark-gray;
+        }
+        
+        input {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          border: 1px solid $light-gray;
+          font-size: 1rem;
+          
+          &:focus {
+            outline: none;
+            border-color: $primary;
+            box-shadow: 0 0 0 2px rgba($primary, 0.2);
+          }
+        }
+      }
+      
+      .form-row {
+        display: flex;
+        gap: 1rem;
+        
+        .form-group {
+          flex: 1;
+        }
+      }
+    }
+  }
+  
+  .modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid $light-gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .coin-balance {
+      font-size: 1rem;
+      color: $dark-gray;
+      
+      strong {
+        color: $dark;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        
+        .coin-icon {
+          color: $gold;
+        }
+      }
+    }
+    
+    .redeem-button {
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      background: $primary;
+      color: $white;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover:not(:disabled) {
+        background: $primary-dark;
+      }
+      
+      &:disabled {
+        background: $gray;
+        cursor: not-allowed;
+      }
+    }
+    
+    .insufficient-funds {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: $danger;
+      text-align: right;
+    }
+  }
+}
+
+// Order Confirmation Styles
+.order-confirmation {
+  padding: 2rem;
+  text-align: center;
+  
+  .confirmation-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba($success, 0.2);
+    @include flex-center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    color: $success;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: $dark;
+  }
+  
+  p {
+    color: $gray;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .order-details {
+    background: $light;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: $dark;
+    }
+    
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      
+      span:first-child {
+        color: $gray;
+      }
+      
+      span:last-child {
+        font-weight: 500;
+        color: $dark;
+      }
+    }
+  }
+  
+  .confirmation-actions {
+    .done-button {
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      background: $primary;
+      color: $white;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: $primary-dark;
+      }
+    }
+  }
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+  .rewards-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .reward-modal-content {
+    .modal-body {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+    
+    .modal-footer {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+      
+      .coin-balance {
+        text-align: center;
+      }
+    }
+  }
+}

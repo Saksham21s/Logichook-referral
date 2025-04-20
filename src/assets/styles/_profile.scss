@@ -1,0 +1,298 @@
+@import './variables';
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba($primary-light, 0.05) 0%, rgba($accent, 0.03) 100%);
+
+  .profile-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba($primary, 0.2);
+      border-radius: 50%;
+      border-top-color: $primary;
+      animation: spin 1s ease-in-out infinite;
+    }
+  }
+
+  .profile-container {
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba($primary, 0.1);
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      text-align: center;
+
+      .profile-photo-container {
+        position: relative;
+        margin-bottom: 1.5rem;
+
+        .profile-photo {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 4px solid rgba($primary, 0.2);
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            border-color: $primary;
+            transform: scale(1.05);
+          }
+        }
+
+        .profile-photo-placeholder {
+          width: 120px;
+          height: 120px;
+          color: $gray;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            color: $primary;
+            transform: scale(1.05);
+          }
+        }
+
+        .edit-photo-btn {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: $primary;
+          color: white;
+          border: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: $primary-dark;
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      .profile-name {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: $dark;
+
+        .edit-input {
+          width: 100%;
+          padding: 0.5rem;
+          border: 1px solid $light-gray;
+          border-radius: 0.5rem;
+          font-size: 1.5rem;
+          text-align: center;
+          max-width: 300px;
+        }
+      }
+
+      .profile-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1.5rem;
+          border-radius: 0.75rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+
+          &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+          }
+        }
+
+        .edit-btn {
+          background: rgba($primary, 0.1);
+          color: $primary;
+
+          &:hover {
+            background: rgba($primary, 0.2);
+          }
+        }
+
+        .save-btn {
+          background: $primary;
+          color: white;
+
+          &:hover {
+            background: $primary-dark;
+          }
+        }
+
+        .cancel-btn {
+          background: rgba($gray, 0.1);
+          color: $gray;
+
+          &:hover {
+            background: rgba($gray, 0.2);
+          }
+        }
+
+        .logout-btn {
+          background: rgba($secondary, 0.1);
+          color: $secondary;
+
+          &:hover {
+            background: rgba($secondary, 0.2);
+          }
+        }
+      }
+    }
+
+    .profile-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+
+      .detail-card {
+        background: rgba($primary, 0.03);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid rgba($primary, 0.1);
+
+        h3 {
+          font-size: 1rem;
+          color: $gray;
+          margin-bottom: 0.5rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          color: $dark;
+          margin: 0.5rem 0;
+        }
+
+        .edit-input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid $light-gray;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+        }
+
+        .referral-code, .referral-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+          background: white;
+          padding: 0.75rem 1rem;
+          border-radius: 0.5rem;
+          border: 1px solid $light-gray;
+
+          p {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .copy-btn {
+            background: none;
+            border: none;
+            color: $primary;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+
+            &:hover {
+              color: $primary-dark;
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        .referral-count {
+          font-size: 0.9rem;
+          color: $gray;
+          margin-top: 0.5rem;
+          font-style: italic;
+        }
+      }
+    }
+
+    .error-message, .success-message {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
+    }
+
+    .error-message {
+      background: rgba($secondary, 0.1);
+      color: $secondary;
+    }
+
+    .success-message {
+      background: rgba($success, 0.1);
+      color: $success;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: $breakpoint-md) {
+  .profile-page {
+    padding: 1rem;
+
+    .profile-container {
+      padding: 1.5rem;
+
+      .profile-header {
+        .profile-name {
+          font-size: 1.5rem;
+        }
+
+        .profile-actions {
+          flex-direction: column;
+          width: 100%;
+
+          button {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}

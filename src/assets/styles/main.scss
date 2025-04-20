@@ -1,0 +1,32 @@
+@import 'variables';
+@import 'globals';
+@import 'animations';
+
+//================================= Landing Page starts Here =================================//
+@import'landing-page.scss';
+
+//==================================Navbar starts Here =================================//
+@import'navbar.scss';
+
+//=================================== Dashboard Page starts Here =================================//
+@import'dashboard.scss';
+
+
+//=================================== Profile Page starts Here =================================//
+@import'profile.scss';
+
+  //===================================Rewards starts Here =================================//
+  @import 'rewards.scss';
+
+//===================================Leaderboard starts Here =================================//
+@import 'leaderboard.scss';
+
+//======================================= Authentication Page starts Here =================================//
+@import 'authentication.scss';
+
+//=====================================Loader Page starts Here =================================//
+@import 'loader.scss';
+
+//=====================================Footer Page starts Here =================================//
+@import 'footer.scss';
+ 
