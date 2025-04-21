@@ -10,6 +10,7 @@ import gamepass from '../assets/images/gamepass.webp';
 import earbuds from '../assets/images/earbud.webp';
 import voucher from '../assets/images/voucher.jpeg';
 import hoodie from '../assets/images/hoodie.jpg';
+import mobile from '../assets/images/mobile.webp';
 
 const Rewards = () => {
   const { currentUser } = useAuth();
@@ -73,7 +74,7 @@ const Rewards = () => {
       category: 'electronics',
       price: 3000,
       description: '$200 credit towards your next phone upgrade',
-      image: gamepass,
+      image: mobile,
       carriers: ['All major carriers']
     }
   ];

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { FaLinkedinIn, FaFacebookF, FaInstagram } from "react-icons/fa";
 import {
   FaLinkedin,
   FaArrowRight,
@@ -18,10 +19,10 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import { FiCheckCircle, FiChevronRight, FiX, FiMenu } from "react-icons/fi";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
 import { RiLinkedinFill } from "react-icons/ri";
 import logo from "../assets/images/logo.svg";
@@ -138,7 +139,11 @@ const LandingPage = () => {
     },
     {
       type: "Experiences",
-      examples: ["VIP event access", "Career Counselling", "One on One Mentorship"],
+      examples: [
+        "VIP event access",
+        "Career Counselling",
+        "One on One Mentorship",
+      ],
       icon: <FaTicketAlt className="text-experience" />,
       color: "experience",
     },
@@ -183,10 +188,10 @@ const LandingPage = () => {
                 <a href="#how-it-works">How It Works</a>
               </li>
               <li>
-                <a href="#rewards">Rewards</a>
+                <a href="#testimonials">Testimonials</a>
               </li>
               <li>
-                <a href="#testimonials">Testimonials</a>
+                <a href="https://www.logichook.in/">About Us</a>
               </li>
               <li>
                 <Link to="/auth" className="btn btn-outline">
@@ -351,9 +356,9 @@ const LandingPage = () => {
           </div>
 
           <div className="referral-section">
-          <div className="cta-right">
-            <img src={qrcodelinkedin} alt="QR Code" />
-          </div>
+            <div className="cta-right">
+              <img src={qrcodelinkedin} alt="QR Code" />
+            </div>
             <div className="referral-glass-card">
               <h2>Invite & Earn</h2>
               <p className="subtitle">
@@ -440,11 +445,29 @@ const LandingPage = () => {
                 whileHover={{ y: -5 }}
               >
                 <div className="quote-icon">
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 30V20H20C20 13.3726 14.6274 8 8 8V16C12.4183 16 16 19.5817 16 24V30H10Z" fill="url(#quote-gradient)" />
-                    <path d="M30 30V20H40C40 13.3726 34.6274 8 28 8V16C32.4183 16 36 19.5817 36 24V30H30Z" fill="url(#quote-gradient)" />
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 30V20H20C20 13.3726 14.6274 8 8 8V16C12.4183 16 16 19.5817 16 24V30H10Z"
+                      fill="url(#quote-gradient)"
+                    />
+                    <path
+                      d="M30 30V20H40C40 13.3726 34.6274 8 28 8V16C32.4183 16 36 19.5817 36 24V30H30Z"
+                      fill="url(#quote-gradient)"
+                    />
                     <defs>
-                      <linearGradient id="quote-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <linearGradient
+                        id="quote-gradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                      >
                         <stop offset="0%" stopColor="#4361ee" />
                         <stop offset="100%" stopColor="#4cc9f0" />
                       </linearGradient>
@@ -458,8 +481,17 @@ const LandingPage = () => {
                   <div className="author-avatar">
                     <img src={testimonial.avatar} alt={testimonial.name} />
                     <div className="verified-badge">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 0L10.3511 5.76393L16 6.12293L11.2 10.0721L12.7023 16L8 12.8L3.29772 16L4.8 10.0721L0 6.12293L5.64886 5.76393L8 0Z" fill="#4CC9F0" />
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8 0L10.3511 5.76393L16 6.12293L11.2 10.0721L12.7023 16L8 12.8L3.29772 16L4.8 10.0721L0 6.12293L5.64886 5.76393L8 0Z"
+                          fill="#4CC9F0"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -468,13 +500,31 @@ const LandingPage = () => {
                     <p>{testimonial.role}</p>
                   </div>
                   <div className="company-logo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0Z" fill="#0077B5" />
-                      <path d="M18.5 8.5C18.5 7.11929 17.3807 6 16 6H8C6.61929 6 5.5 7.11929 5.5 8.5V15.5C5.5 16.8807 6.61929 18 8 18H16C17.3807 18 18.5 16.8807 18.5 15.5V8.5Z" fill="white" />
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0Z"
+                        fill="#0077B5"
+                      />
+                      <path
+                        d="M18.5 8.5C18.5 7.11929 17.3807 6 16 6H8C6.61929 6 5.5 7.11929 5.5 8.5V15.5C5.5 16.8807 6.61929 18 8 18H16C17.3807 18 18.5 16.8807 18.5 15.5V8.5Z"
+                        fill="white"
+                      />
                       <path d="M8.5 9.5H10.5V14.5H8.5V9.5Z" fill="#0077B5" />
-                      <path d="M8.5 7.5C9.05228 7.5 9.5 7.94772 9.5 8.5C9.5 9.05228 9.05228 9.5 8.5 9.5C7.94772 9.5 7.5 9.05228 7.5 8.5C7.5 7.94772 7.94772 7.5 8.5 7.5Z" fill="#0077B5" />
+                      <path
+                        d="M8.5 7.5C9.05228 7.5 9.5 7.94772 9.5 8.5C9.5 9.05228 9.05228 9.5 8.5 9.5C7.94772 9.5 7.5 9.05228 7.5 8.5C7.5 7.94772 7.94772 7.5 8.5 7.5Z"
+                        fill="#0077B5"
+                      />
                       <path d="M11.5 9.5H13.5V14.5H11.5V9.5Z" fill="#0077B5" />
-                      <path d="M15.5 9.5H13.5V14.5H15.5V12.5C15.5 10.8431 16.8431 9.5 18.5 9.5V8.5C16.8431 8.5 15.5 9.84315 15.5 11.5V9.5Z" fill="#0077B5" />
+                      <path
+                        d="M15.5 9.5H13.5V14.5H15.5V12.5C15.5 10.8431 16.8431 9.5 18.5 9.5V8.5C16.8431 8.5 15.5 9.84315 15.5 11.5V9.5Z"
+                        fill="#0077B5"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -484,7 +534,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-
       {/* CTA Section */}
       <section className="cta-section">
         <div className="container">
@@ -492,7 +541,8 @@ const LandingPage = () => {
             <div className="cta-left">
               <h2>Ready to Start Earning?</h2>
               <p>
-                Join thousands of members already growing their networks and earning rewards
+                Join thousands of members already growing their networks and
+                earning rewards
               </p>
 
               {formSubmitted ? (
@@ -533,22 +583,48 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer footer className="footer">
+      <footer className="footer">
         <div className="container">
           <div className="footer-content">
-            <div className="footer-logo">Logichook</div>
-            <span>© {new Date().getFullYear()} All rights reserved</span>
+            <div className="footer-logo">
+              <img src={logo} alt="Logo" />
+            </div>
 
             <div className="footer-links">
-              <button
-                className="btn btn-linkedin"
-                onClick={handleLinkedInClick}
-                title="Follow us on LinkedIn"
-              >
-                <RiLinkedinFill style={{ marginRight: "6px" }} />
-                Follow us
-              </button>
+              <a href="https://www.logichook.in/">About Us</a>
+              <a href="https://www.logichook.in/anil-kothiyal">Our CEO</a>
+              <a href="https://www.logichook.in/quizzes">Quiz Zone</a>
             </div>
+
+            <div className="footer-socials">
+              <a
+                href="https://www.linkedin.com/company/logichookofficial/posts/?feedView=all"
+                className="social-btn"
+                target="blank"
+              >
+                <FaLinkedinIn />
+              </a>
+              <a
+                href="https://www.facebook.com/LogicHookOfficial"
+                className="social-btn"
+                target="blank"
+              >
+                <FaFacebookF />
+              </a>
+              <a
+                href="https://www.instagram.com/logichookofficial/"
+                className="social-btn"
+                target="blank"
+              >
+                <FaInstagram />
+              </a>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <span>
+              © {new Date().getFullYear()} Logichook. All rights reserved.
+            </span>
           </div>
         </div>
       </footer>

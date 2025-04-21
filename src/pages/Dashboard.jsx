@@ -47,6 +47,9 @@ const Dashboard = () => {
   const [spinResult, setSpinResult] = useState(null);
   const [fileUploading, setFileUploading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [canSpin, setCanSpin] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!currentUser) {
@@ -96,13 +99,57 @@ const Dashboard = () => {
     return () => unsubscribeUser();
   }, [currentUser, navigate]);
 
+  // ----- daily spin cooldown ---------//
+  useEffect(() => {
+    if (userData?.lastSpinTime) {
+      const lastSpin = userData.lastSpinTime.toDate();
+      const now = new Date();
+      const cooldown = userData.spinCooldown || 43200000; // Default to 12 hours
+      const timeSinceLastSpin = now - lastSpin;
+
+      if (timeSinceLastSpin < cooldown) {
+        setCanSpin(false);
+        const remaining = cooldown - timeSinceLastSpin;
+        setTimeRemaining(remaining);
+
+        // Update timer every second
+        const timer = setInterval(() => {
+          setTimeRemaining((prev) => {
+            if (prev <= 1000) {
+              clearInterval(timer);
+              setCanSpin(true);
+              return 0;
+            }
+            return prev - 1000;
+          });
+        }, 1000);
+
+        return () => clearInterval(timer);
+      } else {
+        setCanSpin(true);
+      }
+    } else {
+      // If no lastSpinTime, allow spin
+      setCanSpin(true);
+    }
+  }, [userData]);
+
+  const formatTime = (ms) => {
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
   const handleSpinComplete = async (result) => {
     try {
       setSpinResult(result);
       const userRef = doc(db, "users", currentUser.uid);
       await updateDoc(userRef, {
         coins: increment(result),
-        dailySpinUsedOn: new Date(),
+        lastSpinTime: new Date(),
+        spinCooldown: 43200000, // 12 hours in milliseconds
       });
     } catch (error) {
       console.error("Error updating spin result:", error);
@@ -555,12 +602,41 @@ const Dashboard = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
-                <h2>Daily Reward Spin</h2>
-                <p>Spin the wheel to win coins!</p>
+                <motion.h2
+                  initial={{ y: -20 }}
+                  animate={{ y: 0 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  Daily Reward Spin
+                </motion.h2>
+                <p>Spin to win coins every 12 hours!</p>
+                {!canSpin && (
+                  <div className="cooldown-timer">
+                    <div className="timer-progress">
+                      <div
+                        className="progress-fill"
+                        style={{
+                          width: `${(1 - timeRemaining / 43200000) * 100}%`,
+                        }}
+                      ></div>
+                    </div>
+                    <span>Next spin in: {formatTime(timeRemaining)}</span>
+                  </div>
+                )}
               </div>
 
               <div className="wheel-container">
-                <CoinSpinWheel onComplete={handleSpinComplete} />
+                <CoinSpinWheel
+                  onComplete={handleSpinComplete}
+                  disabled={!canSpin}
+                />
+                {!canSpin && (
+                  <div className="wheel-overlay">
+                    <div className="cooldown-message">
+                      Come back in {formatTime(timeRemaining)}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {spinResult && (
@@ -569,15 +645,22 @@ const Dashboard = () => {
                   animate={{ scale: 1 }}
                   className="spin-result"
                 >
+                  <div className="confetti"></div>
+                  <div className="confetti"></div>
+                  <div className="confetti"></div>
                   <div className="result-badge">
-                    You won <span>{spinResult} coins</span>!
+                    <span className="result-text">You won</span>
+                    <span className="coin-amount">{spinResult} coins!</span>
                   </div>
                   <div className="result-actions">
                     <button
-                      onClick={() => setShowWheel(false)}
+                      onClick={() => {
+                        setShowWheel(false);
+                        setSpinResult(null);
+                      }}
                       className="close-button"
                     >
-                      Awesome!
+                      Claim Reward
                     </button>
                   </div>
                 </motion.div>

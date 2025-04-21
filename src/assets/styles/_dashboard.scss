@@ -96,7 +96,7 @@
   align-items: center;
   
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
     
@@ -122,6 +122,10 @@
     
     .badge-icon {
       font-size: 1.2rem;
+    }
+    span{
+      display: inline-block;
+      width:max-content
     }
   }
 }
@@ -757,6 +761,18 @@
   &.spin-card .action-icon {
     background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
   }
+
+  .spin-card.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+  }
+  
+  .spin-card.disabled .wheel-graphic {
+    animation: none;
+    opacity: 0.5;
+  }
+  
   
   &.upload-card .action-icon {
     background: linear-gradient(135deg, $secondary 0%, darken($secondary, 10%) 100%);
@@ -834,7 +850,6 @@
   text-align: center;
   
   .modal-header {
-    margin-bottom: 1.5rem;
     
     h2 {
       font-size: 1.8rem;
@@ -848,7 +863,7 @@
   }
   
   .wheel-container {
-    margin: 2rem 0;
+    margin: 0;
     position: relative;
   }
   

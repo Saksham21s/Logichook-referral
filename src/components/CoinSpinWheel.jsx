@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+
+const COOLDOWN_HOURS = 12;
 
 const CoinSpinWheel = ({ onComplete }) => {
   const [spinning, setSpinning] = useState(false);
+  const [canSpin, setCanSpin] = useState(true);
   const controls = useAnimation();
 
   const segments = [
@@ -14,10 +17,22 @@ const CoinSpinWheel = ({ onComplete }) => {
     { value: 5, color: '#845ef7' }
   ];
 
+  // Check cooldown on load
+  useEffect(() => {
+    const lastSpin = localStorage.getItem('lastSpinTime');
+    if (lastSpin) {
+      const lastSpinTime = new Date(parseInt(lastSpin));
+      const now = new Date();
+      const hoursDiff = (now - lastSpinTime) / (1000 * 60 * 60);
+      setCanSpin(hoursDiff >= COOLDOWN_HOURS);
+    }
+  }, []);
+
   const spinWheel = () => {
-    if (spinning) return;
+    if (spinning || !canSpin) return;
 
     setSpinning(true);
+
     const spins = 5 + Math.floor(Math.random() * 3);
     const winningSegment = Math.floor(Math.random() * segments.length);
     const newRotation = 360 * spins + (360 - (winningSegment * 60) - 30);
@@ -32,6 +47,8 @@ const CoinSpinWheel = ({ onComplete }) => {
 
     setTimeout(() => {
       setSpinning(false);
+      setCanSpin(false);
+      localStorage.setItem('lastSpinTime', Date.now().toString());
       onComplete(segments[winningSegment].value);
     }, 4000);
   };
@@ -68,9 +85,13 @@ const CoinSpinWheel = ({ onComplete }) => {
       <button
         className={`spin-button ${spinning ? 'spinning' : ''}`}
         onClick={spinWheel}
-        disabled={spinning}
+        disabled={spinning || !canSpin}
       >
-        {spinning ? 'Spinning...' : 'SPIN'}
+        {spinning
+          ? 'Spinning...'
+          : !canSpin
+          ? 'Try Again Later'
+          : 'SPIN'}
       </button>
     </div>
   );
